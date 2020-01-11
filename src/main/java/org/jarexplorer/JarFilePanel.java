@@ -17,18 +17,17 @@ public class JarFilePanel extends JPanel {
     /**
      * this is a list that will contain String objects with full paths to the jar files
      */
-    private JList jarGUIList = new JList();
+    private JList<String> jarGUIList = new JList<>();
 
 
     /**
      * No-arg constructor
      */
-    public JarFilePanel()
-    {
+    public JarFilePanel() {
         setLayout(new BorderLayout());
         add(new JScrollPane(jarGUIList), BorderLayout.CENTER);
         setBorder(new TitledBorder("Jar File List"));
-       // jarGUIList.setModel(model);
+        // jarGUIList.setModel(model);
         jarGUIList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     }
@@ -37,13 +36,11 @@ public class JarFilePanel extends JPanel {
      * Sets a list of jar file paths to this panel
      *
      * @param jarList - list of <code>java.lang.String</code> objects. Each string is a fully quialified path to a
-     * jar file
+     *                jar file
      */
-    public void setJarList(ArrayList jarList)
-    {
-        DefaultListModel model = new DefaultListModel();
-        for (int i = 0; i < jarList.size(); i++) {
-            Object jarName =  jarList.get(i);
+    public void setJarList(ArrayList<String> jarList) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (String jarName : jarList) {
             model.addElement(jarName);
         }
 
@@ -56,10 +53,9 @@ public class JarFilePanel extends JPanel {
      *
      * @return string representation of a full path to a jar file. WIll return null if nothing is selected \.
      */
-    public String getSelectedJar()
-    {
+    public String getSelectedJar() {
         Object selected = jarGUIList.getSelectedValue();
-        return selected == null? null:selected.toString();
+        return selected == null ? null : selected.toString();
     }
 
     /**
@@ -68,13 +64,11 @@ public class JarFilePanel extends JPanel {
      *
      * @param listener
      */
-    public void addSelectionListener(ListSelectionListener listener)
-    {
+    public void addSelectionListener(ListSelectionListener listener) {
         jarGUIList.getSelectionModel().addListSelectionListener(listener);
     }
 
-    public void clean()
-    {
-        jarGUIList.setModel(new DefaultListModel());
+    public void clean() {
+        jarGUIList.setModel(new DefaultListModel<String>());
     }
 }

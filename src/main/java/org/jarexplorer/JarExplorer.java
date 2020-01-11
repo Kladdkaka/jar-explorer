@@ -50,7 +50,7 @@ public class JarExplorer extends JFrame {
     private static final String CONFIG_LAST_FILE = "last.file";
 
     private static final String CONFIG_ZIP_EXTENSIONS = "zip.extensions";
-  
+
     // this will clean a long running parse, if a Stop button is pressed
     public static boolean stop = false;
 
@@ -379,7 +379,7 @@ public class JarExplorer extends JFrame {
      * Recursive method. Lists content of directory. If it finds a jar, it adds it to the list, if is
      * finds a directory, it calls itself with that directory as argument
      *
-     * @param f - file handle representing a directory
+     * @param f           - file handle representing a directory
      * @param jarNameList - List to which we're adding Jar names
      * @throws java.io.IOException If problems processing Jars or directories
      */
@@ -510,8 +510,7 @@ public class JarExplorer extends JFrame {
                 model = reader.read(new InputStreamReader(
                         JarExplorer.class.getResourceAsStream("/META-INF/maven/org.jarexplorer/jarexplorer/pom.xml")));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // something went wrong with reading the pom, just use a default
             // e.printStackTrace();
             model = new Model();

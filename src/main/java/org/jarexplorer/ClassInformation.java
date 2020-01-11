@@ -1,6 +1,6 @@
 package org.jarexplorer;
 
-import javad.classfile.classFile;
+import javad.classfile.ClassFile;
 
 import java.util.ArrayList;
 import java.net.URL;
@@ -15,18 +15,17 @@ import java.io.IOException;
  * The lighweight is created with a constructopr, and does not contain any more information that passed to a
  * constructor. The heavyweight is created with a {@link #createFully(String, String)} method, and will contain all information
  * regarding a class.
- * 
+ *
  * @author Greg.Tatham
- * @author  Igor Polevoy
+ * @author Igor Polevoy
  */
-public class ClassInformation
-{
-    private ArrayList constructors = new ArrayList();
+public class ClassInformation {
+    private ArrayList<String> constructors = new ArrayList<>();
     private String[] fields = new String[]{};
     private String modifiers = "";
     private String superclass = "";
     private String[] interfaces = new String[]{};
-    private ArrayList methods = new ArrayList();
+    private ArrayList<String> methods = new ArrayList<>();
 
 
     private String jarFileName;
@@ -36,12 +35,11 @@ public class ClassInformation
      * Creates a lightweightstyle instance - no actual class information, just class name and a jar file.
      * Use {@link ClassInformation#createFully(String, String)} to construct a fully filled object. The latter
      * operation is expoensive (as expected)
-     *  
-     * @param jarName - name of a jar file (fully qualified)
+     *
+     * @param jarName   - name of a jar file (fully qualified)
      * @param classPath - name of class (really a resource, includiong a ".class")
      */
-    public ClassInformation(String jarName, String classPath)
-    {
+    public ClassInformation(String jarName, String classPath) {
         this.jarFileName = jarName;
         this.classPath = classPath;
     }
@@ -49,14 +47,13 @@ public class ClassInformation
     /**
      * Creates a fully filled instance of {@link ClassInformation} by parsing bytecode.
      *
-     * @param jarName - name of jar file
+     * @param jarName   - name of jar file
      * @param className - name of class (in format: pack1/pack2/pack3/ClassName.class)
      * @return instance of {@link ClassInformation} filled with all values parsed from
      * bytecode
      * @throws IOException - thrown in case there is a problem reading bytecode
      */
-    public static ClassInformation createFully(String jarName, String className) throws IOException
-    {
+    public static ClassInformation createFully(String jarName, String className) throws IOException {
         URL u = new URL("jar:file:" + jarName + "!/" + className);
         InputStream in = u.openConnection().getInputStream();
         BufferedInputStream bin = new BufferedInputStream(in);
@@ -64,38 +61,31 @@ public class ClassInformation
 
         ClassInformation classInfo = new ClassInformation(jarName, className);
 
-        if (className.endsWith(".class"))
-        {
-            classFile classFile = new classFile(din);
+        if (className.endsWith(".class")) {
+            ClassFile classFile = new ClassFile(din);
             classInfo.setModifiers(classFile.getClassModifiers());
             classInfo.setConstructors(classFile.getConstructors());
             classInfo.setFields(classFile.getFields());
-            classInfo.setInterfaces(classFile.getInterfaces());
+            classInfo.setInterfaces(classFile.getInterfaceNames());
             classInfo.setMethods(classFile.getMethods());
-            classInfo.setSuperclass(classFile.getSuperClassName());
+            classInfo.setSuperclass(classFile.getSuperclassName());
         }
 
-
         return classInfo;
-
     }
 
 
-    public String getJarFileName()
-    {
+    public String getJarFileName() {
         return jarFileName;
     }
 
 
-
-    public String getClassPath()
-    {
+    public String getClassPath() {
         return classPath;
-   }
+    }
 
 
-    public String getClassName()
-    {
+    public String getClassName() {
         //need to replace slashes with dots and remove .class
         String tmp = classPath.replace('/', '.');
         tmp = tmp.substring(0, tmp.lastIndexOf('.'));
@@ -103,80 +93,60 @@ public class ClassInformation
     }
 
 
-    public String getKey()
-    {
-
+    public String getKey() {
         return getJarFileName() + "!" + getClassPath();
     }
 
 
-    public ArrayList getMethods()
-    {
-
-
+    public ArrayList<String> getMethods() {
         return methods;
     }
 
-    public ArrayList getConstructors()
-    {
-
-
+    public ArrayList<String> getConstructors() {
         return constructors;
     }
 
-    public String[] getFields()
-    {
-
+    public String[] getFields() {
         return fields;
     }
 
-    public String getModifiers()
-    {
+    public String getModifiers() {
         return modifiers;
     }
 
-    public void setModifiers(String modifiers)
-    {
+    public void setModifiers(String modifiers) {
         this.modifiers = modifiers;
     }
 
-    public String getSuperclass()
-    {
+    public String getSuperclass() {
         return superclass;
     }
 
-    public void setSuperclass(String superclass)
-    {
+    public void setSuperclass(String superclass) {
         this.superclass = superclass;
     }
 
-    public String[] getInterfaces()
-    {
+    public String[] getInterfaces() {
         return interfaces;
     }
 
-    public void setInterfaces(String[] interfaces)
-    {
+    public void setInterfaces(String[] interfaces) {
         this.interfaces = interfaces;
     }
 
-    public void setConstructors(ArrayList constructors)
-    {
+    public void setConstructors(ArrayList<String> constructors) {
         this.constructors = constructors;
     }
 
-    public void setFields(String[] fields)
-    {
+    public void setFields(String[] fields) {
         this.fields = fields;
     }
 
-    public void setMethods(ArrayList methods)
-    {
+    public void setMethods(ArrayList<String> methods) {
         this.methods = methods;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return getJarFileName() + " : " + getClassPath();
     }
 }

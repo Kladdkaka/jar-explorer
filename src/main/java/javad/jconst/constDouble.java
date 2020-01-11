@@ -17,25 +17,25 @@ package javad.jconst;
 import java.io.*;
 
 
-public class constDouble extends constLongConvert  {
-  double d;
-  
-  private void toDouble( long l ) {
-    d = Double.longBitsToDouble( l );
-  }
+public class constDouble extends constLongConvert {
+    double d;
 
-  public void read( DataInputStream dStream ) {
-    long longVal;
+    private void toDouble(long l) {
+        d = Double.longBitsToDouble(l);
+    }
 
-    longVal = readLong( dStream );
-    toDouble( longVal );
-  }
+    public void read(DataInputStream dStream) {
+        long longVal;
 
-  public String getString() {
-    return Double.toString( d );
-  }
+        longVal = readLong(dStream);
+        toDouble(longVal);
+    }
 
-  public void pr() {
-    System.out.print( d );
-  } // pr
+    public String getString() {
+        return Double.toString(d);
+    }
+
+    public void pr() {
+        System.out.print(d);
+    } // pr
 } // constDouble

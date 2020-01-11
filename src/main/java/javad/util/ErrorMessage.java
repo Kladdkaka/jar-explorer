@@ -30,25 +30,25 @@ package javad.util;
    after the class is initialized.
 
  */
-public final class errorMessage {
-  private static String programName = null;
+public final class ErrorMessage {
+    private static String programName = null;
 
-  //
-  // setProgName
-  //
-  public static void setProgName( String name ) {
-    programName = name;
-  } // setProgName 
-  
-  public static void errorPrint( String msg ) {
-    String name;
+    //
+    // setProgName
+    //
+    public static void setProgramName(String name) {
+        programName = name;
+    } // setProgName
 
-    if (programName == null)
-      name = "";
-    else
-      name = programName;
+    public static void errorPrint(String msg) {
+        String name;
 
-    System.out.println( name + ": " + msg );
-  }
+        if (programName == null)
+            name = "";
+        else
+            name = programName;
+
+        System.out.println(name + ": " + msg);
+    }
 
 } // errorMessage

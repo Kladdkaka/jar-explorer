@@ -20,8 +20,7 @@ import java.io.*;
  *
  * @author Igor Polevoy
  */
-public class ResourceExplorerDialog extends CenteredDialog
-{
+public class ResourceExplorerDialog extends CenteredDialog {
     private JCheckBox monospacedCB;
     private JTextArea textArea;
     private Font font;
@@ -34,22 +33,16 @@ public class ResourceExplorerDialog extends CenteredDialog
      * @param resourceName - internal path to resource
      * @throws IOException - thrown in case there is a problem reading the resource.
      */
-    public ResourceExplorerDialog(Frame owner, String jarFileName, String resourceName) throws IOException
-    {
+    public ResourceExplorerDialog(Frame owner, String jarFileName, String resourceName) throws IOException {
         super(owner, jarFileName + ":" + resourceName, false);
 
         getContentPane().setLayout(new BorderLayout());
 
-        if (resourceName.toLowerCase().endsWith(".html"))
-        {
+        if (resourceName.toLowerCase().endsWith(".html")) {
             buildForHTML(jarFileName, resourceName);
-        }
-        else if(isImage(resourceName))
-        {
+        } else if (isImage(resourceName)) {
             buildForImage(Util.readResourceAsBytes(jarFileName, resourceName));
-        }
-        else
-        {
+        } else {
             buildForSimpleResource(Util.readResourceAsString(jarFileName, resourceName));
         }
 
@@ -57,10 +50,8 @@ public class ResourceExplorerDialog extends CenteredDialog
         JPanel southPanel = new JPanel();
         JButton closeB = new JButton("Close");
         southPanel.add(closeB);
-        closeB.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        closeB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
@@ -75,23 +66,17 @@ public class ResourceExplorerDialog extends CenteredDialog
      *
      * @param resource content of resourse (property file, manifest, etc.)
      */
-    private void buildForSimpleResource(String resource)
-    {
+    private void buildForSimpleResource(String resource) {
         //north panel - toolbar
         monospacedCB = new JCheckBox("Monospaced Font");
         monospacedCB.setSelected(true);
         JPanel northPanel = new JPanel(new BorderLayout());
         northPanel.add(monospacedCB, BorderLayout.WEST);
-        monospacedCB.addChangeListener(new ChangeListener()
-        {
-            public void stateChanged(ChangeEvent e)
-            {
-                if (monospacedCB.isSelected())
-                {
+        monospacedCB.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                if (monospacedCB.isSelected()) {
                     textArea.setFont(new Font("Monospaced", font.getStyle(), font.getSize()));
-                }
-                else
-                {
+                } else {
                     textArea.setFont(new Font("Default", font.getStyle(), font.getSize()));
                 }
             }
@@ -107,13 +92,11 @@ public class ResourceExplorerDialog extends CenteredDialog
     }
 
     /**
-     *
-     * @param jarFileName name of jar file (fully qualified)
+     * @param jarFileName  name of jar file (fully qualified)
      * @param resourceName path to resource within the jar file
      * @throws IOException
      */
-    private void buildForHTML(String jarFileName, String resourceName) throws IOException
-    {
+    private void buildForHTML(String jarFileName, String resourceName) throws IOException {
         JEditorPane htmlPane = new JEditorPane(new URL("jar:file:" + jarFileName + "!/" + resourceName));
         htmlPane.setEditable(false);
         JTextArea sourceArea = new JTextArea(Util.readResourceAsString(jarFileName, resourceName));
@@ -121,7 +104,7 @@ public class ResourceExplorerDialog extends CenteredDialog
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add("HTML", new JScrollPane(htmlPane));
         tabbedPane.add("Source", new JScrollPane(sourceArea));
-        sourceArea.setFont(new Font("Monospaced", Font.PLAIN, sourceArea.getFont().getSize() ));
+        sourceArea.setFont(new Font("Monospaced", Font.PLAIN, sourceArea.getFont().getSize()));
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
     }
 
@@ -130,8 +113,7 @@ public class ResourceExplorerDialog extends CenteredDialog
      *
      * @param image image content.
      */
-    private void buildForImage(byte[] image)
-    {
+    private void buildForImage(byte[] image) {
         JLabel l = new JLabel();
         Icon icon = new ImageIcon(image);
         l.setIcon(icon);
@@ -146,9 +128,8 @@ public class ResourceExplorerDialog extends CenteredDialog
      * @param selectedValue - path to resource
      * @return true is extension is: gif, jpg, jpeg, png (case insensitive)
      */
-    private boolean isImage(String selectedValue)
-    {
+    private boolean isImage(String selectedValue) {
         String tmp = selectedValue.toLowerCase();
-        return tmp.endsWith(".gif") || tmp.endsWith(".jpg") || tmp.endsWith(".jpeg")  || tmp.endsWith(".png");
+        return tmp.endsWith(".gif") || tmp.endsWith(".jpg") || tmp.endsWith(".jpeg") || tmp.endsWith(".png");
     }
 }

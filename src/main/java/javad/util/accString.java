@@ -25,86 +25,85 @@ package javad.util;
  */
 public final class accString implements access_and_modifier_flags {
 
-  private static String getName( int val ) {
-    String str = null;
+    private static String getName(int val) {
+        String str = null;
 
-    switch ( val ) {
-    case ACC_PUBLIC:
-      str = "public";
-      break;
-    case ACC_PRIVATE:
-      str = "private";
-      break;
-    case ACC_PROTECTED:
-      str = "protected";
-      break;
-    case ACC_STATIC:
-      str = "static";
-      break;
-    case ACC_FINAL:
-      str = "final";
-      break;
-    case ACC_SYNC:
-      str = "synchronized";
-      break;
-    case ACC_VOLATILE:
-      str = "volatile";
-      break;
-    case ACC_TRANSIENT:
-      str = "transient";
-      break;
-    case ACC_NATIVE:
-      str = "native";
-      break;
-    case ACC_INTERFACE:
-      str = "interface ";
-      break;
-    case ACC_ABSTRACT:
-      str = "abstract";
-      break;
-    case ACC_STRICT:
-      str = "strict";
-      break;
-    } // switch
-    return str;
-  } // getName
+        switch (val) {
+            case ACC_PUBLIC:
+                str = "public";
+                break;
+            case ACC_PRIVATE:
+                str = "private";
+                break;
+            case ACC_PROTECTED:
+                str = "protected";
+                break;
+            case ACC_STATIC:
+                str = "static";
+                break;
+            case ACC_FINAL:
+                str = "final";
+                break;
+            case ACC_SYNC:
+                str = "synchronized";
+                break;
+            case ACC_VOLATILE:
+                str = "volatile";
+                break;
+            case ACC_TRANSIENT:
+                str = "transient";
+                break;
+            case ACC_NATIVE:
+                str = "native";
+                break;
+            case ACC_INTERFACE:
+                str = "interface ";
+                break;
+            case ACC_ABSTRACT:
+                str = "abstract";
+                break;
+            case ACC_STRICT:
+                str = "strict";
+                break;
+        } // switch
+        return str;
+    } // getName
 
-  
-  //
-  // toString
-  // 
-  // This function is passed an access or modifier bitmap.  It
-  // returns a string with the equivalent names.
-  //
-  public static String toString( int mod, boolean isMethod ) {
-    String modStr = null;
 
-    if (mod > 0) {
-      int mask, cur_mod;
-      boolean firstName = true;
-      
-      for (mask = 1; mask < 0x0010000; mask = mask << 1) {
-	cur_mod = mod & mask;
-	if (cur_mod != 0) {
+    //
+    // toString
+    //
+    // This function is passed an access or modifier bitmap.  It
+    // returns a string with the equivalent names.
+    //
+    public static String toString(int mod, boolean isMethod) {
+        String modStr = null;
 
-	  // ACC_SYNCHRONIZED and ACC_SUPER have the same value.
-	  // If a method is being processed then the value
-	  // indicates a "synchronized" modifier.
-	  if (cur_mod == ACC_SYNC && (!isMethod))
-	    continue;
+        if (mod > 0) {
+            int mask, cur_mod;
+            boolean firstName = true;
 
-	  if (! firstName) {
-	    modStr = modStr + " " + getName( cur_mod );
-	  }
-	  else {
-	    modStr = getName( cur_mod );
-	    firstName = false;
-	  }
-	}
-      } // for
-    } // if
+            for (mask = 1; mask < 0x0010000; mask = mask << 1) {
+                cur_mod = mod & mask;
+                if (cur_mod != 0) {
 
-    return modStr;
-  } // toString
+                    // ACC_SYNCHRONIZED and ACC_SUPER have the same value.
+                    // If a method is being processed then the value
+                    // indicates a "synchronized" modifier.
+                    if (cur_mod == ACC_SYNC && (!isMethod))
+                        continue;
+
+                    if (!firstName) {
+                        modStr = modStr + " " + getName(cur_mod);
+                    } else {
+                        modStr = getName(cur_mod);
+                        firstName = false;
+                    }
+                }
+            } // for
+        } // if
+
+        return modStr;
+    } // toString
 
 } // accString

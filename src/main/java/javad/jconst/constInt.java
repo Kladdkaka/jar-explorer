@@ -22,19 +22,19 @@ import java.io.*;
  *
  */
 public class constInt extends constBase {
-  int val;
+    int val;
 
-  public void read( DataInputStream dStream ) {
-    val = readU4(dStream);
-  }
+    public void read(DataInputStream dStream) {
+        val = readU4(dStream);
+    }
 
-  public String getString() {
-    return Integer.toString( val );
-  }
-  
-  public void pr() {
-    System.out.print( val );
-  } // pr
+    public String getString() {
+        return Integer.toString(val);
+    }
+
+    public void pr() {
+        System.out.print(val);
+    } // pr
 
 } // constInt;
 

@@ -1,8 +1,5 @@
 package org.jarexplorer;
 
-import org.jarexplorer.CenteredDialog;
-import org.jarexplorer.ClassInformation;
-
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -21,16 +18,14 @@ import java.util.ArrayList;
  * <br/>
  * August 22 2007
  */
-public class ClassExplorerDialog extends CenteredDialog
-{
+public class ClassExplorerDialog extends CenteredDialog {
     /**
-     * COnstructs an instance
+     * Constructs an instance
      *
-     * @param owner - top level frame
-     * @param classInformation - instance 
+     * @param owner            - top level frame
+     * @param classInformation - instance
      */
-    public ClassExplorerDialog(Frame owner, ClassInformation classInformation)
-    {
+    public ClassExplorerDialog(Frame owner, ClassInformation classInformation) {
         super(owner, classInformation.getJarFileName() + ":" + classInformation.getClassPath(), false);
 
         getContentPane().setLayout(new BorderLayout());
@@ -52,55 +47,47 @@ public class ClassExplorerDialog extends CenteredDialog
         root.add(methodsNode = new DefaultMutableTreeNode("<html><font color='blue'>Methods</font></html>"));
         JTree tree = new JTree();
 
-        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer)tree.getCellRenderer();
+        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
         renderer.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
         classNode.add(new DefaultMutableTreeNode("<html><font color='blue'>Jar File: </font>" + classInformation.getJarFileName() + "</html>"));
         classNode.add(new DefaultMutableTreeNode("<html><font color='blue'>Superclass: </font>" + classInformation.getSuperclass() + "</html>"));
         classNode.add(modifiersNode = new DefaultMutableTreeNode("<html><font color='blue'>Modifiers:</font>" + classInformation.getModifiers() + "</html>"));
 
-        ((DefaultTreeModel)tree.getModel()).setRoot(root);
+        ((DefaultTreeModel) tree.getModel()).setRoot(root);
 
         //interfaces
         String[] interfacesArray = classInformation.getInterfaces();
-        for (int i = 0; i < interfacesArray.length; i++)
-        {
-            String interfaceName = interfacesArray[i];
+        for (String interfaceName : interfacesArray) {
             interfacesNode.add(new DefaultMutableTreeNode(interfaceName));
         }
 
         //constructors
-        ArrayList constructorList = classInformation.getConstructors();
-        for (int i = 0; i < constructorList.size(); i++)
-        {
-            String constructor = (String) constructorList.get(i);
+        ArrayList<String> constructorList = classInformation.getConstructors();
+        for (Object value : constructorList) {
+            String constructor = (String) value;
             constructorsNode.add(new DefaultMutableTreeNode(constructor));
         }
 
         //methods
-        ArrayList methodsList = classInformation.getMethods();
-        for (int i = 0; i < methodsList.size(); i++)
-        {
-            String method = (String) methodsList.get(i);
+        ArrayList<String> methodsList = classInformation.getMethods();
+        for (Object o : methodsList) {
+            String method = (String) o;
             methodsNode.add(new DefaultMutableTreeNode(method));
         }
 
         //fields
         String[] fieldsList = classInformation.getFields();
-        for (int i = 0; i < fieldsList.length; i++)
-        {
-            String field = fieldsList[i];
+        for (String field : fieldsList) {
             fieldsNode.add(new DefaultMutableTreeNode(field));
         }
-        
+
         //build south panel
         JPanel southPanel = new JPanel();
         JButton closeB = new JButton("Close");
         southPanel.add(closeB);
-        closeB.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        closeB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });

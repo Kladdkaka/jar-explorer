@@ -21,13 +21,11 @@ import java.awt.event.ActionListener;
  * This dialog will be resized to it's optimal size each time a "Details" button is depressed.
  * The dialog is dismissed when "OK" button is depressed.
  *
- *
  * @author Igor Polevoy
  * Date: Jan 3, 2003
  * Time: 12:58:43 PM
  */
-public class DetailsMessageBox extends CenteredDialog
-{
+public class DetailsMessageBox extends CenteredDialog {
 
     private JButton detailsB;
     private JButton okB;
@@ -37,19 +35,18 @@ public class DetailsMessageBox extends CenteredDialog
     /**
      * Constructor
      *
-     * @param parent - parent frame
-     * @param title - title of dialog
+     * @param parent  - parent frame
+     * @param title   - title of dialog
      * @param message - message text to be displayed on the dialog
      * @param details - details text to be displayed if "Details" button is pressed
-     * @param type - type of icon to display on the dialog. Possible options:
-     * <code>
-     * javax.swing.JOptionPane.WARNING_MESSAGE
-     * javax.swing.JOptionPane.ERROR_MESSAGE
-     * javax.swing.JOptionPane.INFORMATION_MESSAGE
-     * </code>
+     * @param type    - type of icon to display on the dialog. Possible options:
+     *                <code>
+     *                javax.swing.JOptionPane.WARNING_MESSAGE
+     *                javax.swing.JOptionPane.ERROR_MESSAGE
+     *                javax.swing.JOptionPane.INFORMATION_MESSAGE
+     *                </code>
      */
-    public DetailsMessageBox(Frame parent, String title, String message, String details, int type)
-    {
+    public DetailsMessageBox(Frame parent, String title, String message, String details, int type) {
         super(parent, title, true);
         this.type = type;
         init(message);
@@ -59,19 +56,18 @@ public class DetailsMessageBox extends CenteredDialog
     /**
      * Constructor
      *
-     * @param parent - parent dialog
-     * @param title - title of dialog
+     * @param parent  - parent dialog
+     * @param title   - title of dialog
      * @param message - message text to be displayed on the dialog
      * @param details - details text to be displayed if "Details" button is pressed
-     * @param type - type of icon to display on the dialog. Possible options:
-     * <code>
-     * javax.swing.JOptionPane.WARNING_MESSAGE
-     * javax.swing.JOptionPane.ERROR_MESSAGE
-     * javax.swing.JOptionPane.INFORMATION_MESSAGE
-     * </code>
+     * @param type    - type of icon to display on the dialog. Possible options:
+     *                <code>
+     *                javax.swing.JOptionPane.WARNING_MESSAGE
+     *                javax.swing.JOptionPane.ERROR_MESSAGE
+     *                javax.swing.JOptionPane.INFORMATION_MESSAGE
+     *                </code>
      */
-    public DetailsMessageBox(Dialog parent, String title, String message, String details, int type)
-    {
+    public DetailsMessageBox(Dialog parent, String title, String message, String details, int type) {
         super(parent, title, true);
         this.type = type;
         init(message);
@@ -83,8 +79,7 @@ public class DetailsMessageBox extends CenteredDialog
      *
      * @param message - text message
      */
-    private void init(String message)
-    {
+    private void init(String message) {
         detailsB = new JButton("Details >>");
         okB = new JButton("OK");
 
@@ -99,42 +94,31 @@ public class DetailsMessageBox extends CenteredDialog
 
         //get the specified icon from the UIDefaults
         Icon icon;
-        if(JOptionPane.ERROR_MESSAGE == type)
-        {
-            icon = (Icon)UIManager.get("OptionPane.errorIcon");
-        }
-        else if(JOptionPane.INFORMATION_MESSAGE == type)
-        {
-            icon = (Icon)UIManager.get("OptionPane.informationIcon");
-        }
-        else if(JOptionPane.WARNING_MESSAGE == type)
-        {
-            icon = (Icon)UIManager.get("OptionPane.warningIcon");
-        }
-        else
-        {
+        if (JOptionPane.ERROR_MESSAGE == type) {
+            icon = (Icon) UIManager.get("OptionPane.errorIcon");
+        } else if (JOptionPane.INFORMATION_MESSAGE == type) {
+            icon = (Icon) UIManager.get("OptionPane.informationIcon");
+        } else if (JOptionPane.WARNING_MESSAGE == type) {
+            icon = (Icon) UIManager.get("OptionPane.warningIcon");
+        } else {
             throw new IllegalArgumentException("Incorrect type of message box: " + type + ". Correct types are: javax.swing.JOptionPane.WARNING_MESSAGE, javax.swing.JOptionPane.ERROR_MESSAGE, javax.swing.JOptionPane.INFORMATION_MESSAGE");
         }
         JLabel l = new JLabel(icon);
         //the following code is to more or less center the stupid icon.
         //setHorizontalAlignment() does not do much, apparently it only affects text
-        l.setBorder(new Border()
-        {
-            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height)
-            {
+        l.setBorder(new Border() {
+            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             }
 
-            public Insets getBorderInsets(Component c)
-            {
-                return new Insets(10, 20, 10,10);
+            public Insets getBorderInsets(Component c) {
+                return new Insets(10, 20, 10, 10);
             }
 
-            public boolean isBorderOpaque()
-            {
+            public boolean isBorderOpaque() {
                 return false;
             }
         });
-        messagePanel.add(l,BorderLayout.WEST);
+        messagePanel.add(l, BorderLayout.WEST);
         messagePanel.add(new JLabel(" "), BorderLayout.EAST);//this is just a margin on the right
 
         //controlPanel holds buttons and has a FlowLayout
@@ -154,30 +138,24 @@ public class DetailsMessageBox extends CenteredDialog
      *
      * @param details - detals
      */
-    private void addListeners(final String details)
-    {
-        detailsB.addActionListener(new ActionListener()
-        {
+    private void addListeners(final String details) {
+        detailsB.addActionListener(new ActionListener() {
             private JScrollPane pane;
 
-            public void actionPerformed(ActionEvent e)
-            {
-                if(!open)
-                {
+            public void actionPerformed(ActionEvent e) {
+                if (!open) {
                     JTextArea detailsTA = new JTextArea(details);
                     detailsTA.setEditable(false);
                     pane = new JScrollPane(detailsTA);
                     pane.setPreferredSize(new Dimension(100, 80));
                     getContentPane().add(pane, BorderLayout.SOUTH);
                     detailsB.setText("Details <<");
-                    DetailsMessageBox.this.setSize(DetailsMessageBox.this.getSize().width,  DetailsMessageBox.this.getSize().height + 50);
+                    DetailsMessageBox.this.setSize(DetailsMessageBox.this.getSize().width, DetailsMessageBox.this.getSize().height + 50);
                     DetailsMessageBox.this.pack();
                     open = true;
-                }
-                else
-                {
+                } else {
                     getContentPane().remove(pane);
-                    DetailsMessageBox.this.setSize(DetailsMessageBox.this.getSize().width,  DetailsMessageBox.this.getSize().height - 50);
+                    DetailsMessageBox.this.setSize(DetailsMessageBox.this.getSize().width, DetailsMessageBox.this.getSize().height - 50);
                     detailsB.setText("Details >>");
                     DetailsMessageBox.this.pack();
                     open = false;
@@ -187,10 +165,8 @@ public class DetailsMessageBox extends CenteredDialog
         });
 
 
-        okB.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        okB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 DetailsMessageBox.this.dispose();
             }
         });
@@ -200,42 +176,40 @@ public class DetailsMessageBox extends CenteredDialog
     /**
      * Show message box
      *
-     * @param parent - parent frame
-     * @param title - title of dialog
+     * @param parent  - parent frame
+     * @param title   - title of dialog
      * @param message - message text to be displayed on the dialog
      * @param details - details text to be displayed if "Details" button is pressed
-     * @param type - type of icon to display on the dialog. Possible options:
-     * <code>
-     * javax.swing.JOptionPane.WARNING_MESSAGE
-     * javax.swing.JOptionPane.ERROR_MESSAGE
-     * javax.swing.JOptionPane.INFORMATION_MESSAGE
-     * </code>
+     * @param type    - type of icon to display on the dialog. Possible options:
+     *                <code>
+     *                javax.swing.JOptionPane.WARNING_MESSAGE
+     *                javax.swing.JOptionPane.ERROR_MESSAGE
+     *                javax.swing.JOptionPane.INFORMATION_MESSAGE
+     *                </code>
      */
-    public static void showMessage(Frame parent, String title, String message, String details, int type)
-    {
-        DetailsMessageBox mb = new DetailsMessageBox(parent, "Warning", "This is just a warning text \n second line of warning text", "This is details text \n second line of text", JOptionPane.WARNING_MESSAGE);
-        mb.setVisible(true);
-    }
-    /**
-     * Show message box
-     *
-     * @param parent - parent dialog
-     * @param title - title of dialog
-     * @param message - message text to be displayed on the dialog
-     * @param details - details text to be displayed if "Details" button is pressed
-     * @param type - type of icon to display on the dialog. Possible options:
-     * <code>
-     * javax.swing.JOptionPane.WARNING_MESSAGE
-     * javax.swing.JOptionPane.ERROR_MESSAGE
-     * javax.swing.JOptionPane.INFORMATION_MESSAGE
-     * </code>
-     */
-    public static void showMessage(Dialog parent, String title, String message, String details, int type)
-    {
+    public static void showMessage(Frame parent, String title, String message, String details, int type) {
         DetailsMessageBox mb = new DetailsMessageBox(parent, "Warning", "This is just a warning text \n second line of warning text", "This is details text \n second line of text", JOptionPane.WARNING_MESSAGE);
         mb.setVisible(true);
     }
 
+    /**
+     * Show message box
+     *
+     * @param parent  - parent dialog
+     * @param title   - title of dialog
+     * @param message - message text to be displayed on the dialog
+     * @param details - details text to be displayed if "Details" button is pressed
+     * @param type    - type of icon to display on the dialog. Possible options:
+     *                <code>
+     *                javax.swing.JOptionPane.WARNING_MESSAGE
+     *                javax.swing.JOptionPane.ERROR_MESSAGE
+     *                javax.swing.JOptionPane.INFORMATION_MESSAGE
+     *                </code>
+     */
+    public static void showMessage(Dialog parent, String title, String message, String details, int type) {
+        DetailsMessageBox mb = new DetailsMessageBox(parent, "Warning", "This is just a warning text \n second line of warning text", "This is details text \n second line of text", JOptionPane.WARNING_MESSAGE);
+        mb.setVisible(true);
+    }
 
 
     /**
@@ -243,8 +217,7 @@ public class DetailsMessageBox extends CenteredDialog
      *
      * @param args
      */
-    public static void main(String [] args)
-    {
+    public static void main(String[] args) {
         JFrame parent = new JFrame();
         DetailsMessageBox mb = new DetailsMessageBox(parent, "Warning", "This is just a warning text \n second line of warning text", "This is details text \n second line of text", JOptionPane.WARNING_MESSAGE);
         mb.setVisible(true);

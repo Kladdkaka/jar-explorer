@@ -1,6 +1,6 @@
 package javad;
 
-import javad.classfile.classFile;
+import javad.classfile.ClassFile;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,18 +12,16 @@ import java.util.ArrayList;
 /**
  * This is a simple class that shows how to use javad with added API,
  * change pathToTestClass and see the results.
- * 
+ *
  * @author Igor Polevoy
  */
-public class Igor
-{
+public class Igor {
     static void usage() {
         System.err.println("this program takes a set of one or more" +
-                    " .class file names as its argument");
+                " .class file names as its argument");
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         if (args.length == 0) {
             // args = new String[]{"C:\\gwt\\build\\web\\WEB-INF\\classes\\sample\\client\\Sample$TableAsyncCallback.class"};
             usage();
@@ -33,8 +31,8 @@ public class Igor
             printNewDump(givenClassName);
         }
     }
-    
-    final private static String STR_DELIMITER_LINE = "===================================================="; 
+
+    final private static String STR_DELIMITER_LINE = "====================================================";
     private static boolean firstPrint = true;
 
     // TODO: add an option to store the output into an output stream / StringBuffer or similar,
@@ -59,38 +57,32 @@ public class Igor
         BufferedInputStream bin = new BufferedInputStream(fin);
         DataInputStream din = new DataInputStream(bin);
 
-        classFile classFile = new classFile(din);
+        ClassFile classFile = new ClassFile(din);
         System.out.println("Class Modifiers: " + classFile.getClassModifiers());
         System.out.println("Class Name: " + classFile.getClassName());
-        System.out.println("Class Superclass: " + classFile.getSuperClassName());
-        String [] interfaces = classFile.getInterfaces();
-        
-        for (int i = 0; i < interfaces.length; i++)
-        {
-            String anInterface = interfaces[i];
+        System.out.println("Class Superclass: " + classFile.getSuperclassName());
+        String[] interfaces = classFile.getInterfaceNames();
+
+        for (String anInterface : interfaces) {
             System.out.println("Interface: " + anInterface);
         }
 
         String[] fields = classFile.getFields();
-        for (int i = 0; i < fields.length; i++)
-        {
-            String field = fields[i];
+        for (String field : fields) {
             System.out.println("Field: " + field);
         }
 
-        ArrayList methods = classFile.getMethods();
+        ArrayList<String> methods = classFile.getMethods();
 
-        for (int i = 0; i < methods.size(); i++)
-        {
-            String method = (String) methods.get(i);
+        for (Object value : methods) {
+            String method = (String) value;
             System.out.println("Method: " + method);
         }
 
 
-        ArrayList constructors = classFile.getConstructors();
-        for (int i = 0; i < constructors.size(); i++)
-        {
-            String constructor = (String) constructors.get(i);
+        ArrayList<String> constructors = classFile.getConstructors();
+        for (Object o : constructors) {
+            String constructor = (String) o;
             System.out.println("Constructor: " + constructor);
         }
 

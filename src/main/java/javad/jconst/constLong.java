@@ -21,18 +21,18 @@ import java.io.*;
  *
  */
 public class constLong extends constLongConvert {
-  long longVal;
+    long longVal;
 
-  public void read( DataInputStream dStream ) {
-    longVal = readLong( dStream );
-  }
+    public void read(DataInputStream dStream) {
+        longVal = readLong(dStream);
+    }
 
-  public String getString() {
-    return Long.toString( longVal );
-  }
+    public String getString() {
+        return Long.toString(longVal);
+    }
 
-  public void pr() {
-    System.out.print( longVal );
-  } // pr
+    public void pr() {
+        System.out.print(longVal);
+    } // pr
 
 } // constLong

@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jarexplorer</groupId>
     <artifactId>jarexplorer</artifactId>
@@ -42,26 +42,26 @@
                 </configuration>
             </plugin>
             <plugin>
-                 <artifactId>maven-assembly-plugin</artifactId>
-                 <executions>
-                     <execution>
-                          <phase>package</phase>
-                          <goals>
-                              <goal>single</goal>
-                          </goals>
-                      </execution>
-                  </executions>
-                  <configuration>
-                       <archive>
-                           <manifest>
-                                 <mainClass>org.jarexplorer.JarExplorer</mainClass>
-                           </manifest>
-                       </archive>
-                       <descriptorRefs>
-                           <descriptorRef>jar-with-dependencies</descriptorRef>
-                      </descriptorRefs>
-                 </configuration>
-         </plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.jarexplorer.JarExplorer</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -87,7 +87,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <description>explore a single or multiple jars (indexed lookup), providing a number of views for resources: class - specific, shows all class information: interfaces, super class, methods, fields, as well as views for text, HTML, images.</description>
+    <description>explore a single or multiple jars (indexed lookup), providing a number of views for resources: class -
+        specific, shows all class information: interfaces, super class, methods, fields, as well as views for text,
+        HTML, images.
+    </description>
     <scm>
         <url>https://github.com/javalite/jar-explorer</url>
         <connection>scm:git:https://github.com/javalite/jar-explorer.git</connection>

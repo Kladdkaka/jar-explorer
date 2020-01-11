@@ -11,27 +11,25 @@ import java.io.IOException;
  *
  * @author Igor Polevoy
  */
-public class LicenseDialog extends CenteredDialog
-{
-    public LicenseDialog()
-    {
+public class LicenseDialog extends CenteredDialog {
+    public LicenseDialog() {
         super(GUIUtil.getMainFrame(), "Licenses", true);
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        try
-        {
+        try {
             JEditorPane pane;
             tabbedPane.add("JarExplorer", new JScrollPane(pane = new JEditorPane(getClass().getResource("/license.html"))));
             pane.setEditable(false);
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
         }
-        catch (Exception ignore){ignore.printStackTrace();}
-        try
-        {
+        try {
             JEditorPane pane;
             tabbedPane.add("javad", new JScrollPane(pane = new JEditorPane("text/html", readResource("/javad/copyright.html"))));
             pane.setEditable(false);
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
         }
-        catch (Exception ignore){ignore.printStackTrace();}
 
 
         getContentPane().add(tabbedPane);
@@ -39,12 +37,10 @@ public class LicenseDialog extends CenteredDialog
 
     }
 
-    private String readResource(String resource) throws IOException
-    {
+    private String readResource(String resource) throws IOException {
         InputStream in = this.getClass().getResourceAsStream(resource);
         StringBuffer tmp = new StringBuffer(1024);
-        for (int i = in.read(); i != -1; i = in.read())
-        {
+        for (int i = in.read(); i != -1; i = in.read()) {
             tmp.append((char) i);
         }
         return tmp.toString();

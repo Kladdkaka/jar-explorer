@@ -17,10 +17,10 @@ import java.util.ArrayList;
 /**
  * This is a panel with a list box, which shows result of a search. It shows fully qualified paths to resources,
  * including inside the jar files.
+ *
  * @author Igor Polevoy
  */
-public class SearchResultsPanel extends JPanel
-{
+public class SearchResultsPanel extends JPanel {
 
     private JList resultList = new JList();
     private DefaultListModel model;
@@ -31,8 +31,7 @@ public class SearchResultsPanel extends JPanel
     /**
      * Constructor
      */
-    public SearchResultsPanel()
-    {
+    public SearchResultsPanel() {
         this.resultList.setModel(model = new DefaultListModel());
         setLayout(new BorderLayout());
         setBorder(border = new TitledBorder("Search Results"));
@@ -49,15 +48,12 @@ public class SearchResultsPanel extends JPanel
     /**
      * Wires listeners
      */
-    private void addActionListeners()
-    {
+    private void addActionListeners() {
         //Construct popup menu
         final JPopupMenu menu = new JPopupMenu();
         JMenuItem copyMI = new JMenuItem("Copy");
-        copyMI.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        copyMI.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 StringSelection stringSelection = new StringSelection(resultList.getSelectedValue().toString());
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, stringSelection);
             }
@@ -65,44 +61,34 @@ public class SearchResultsPanel extends JPanel
         menu.add(copyMI);
 
         //this will popup a menu if there is something selected
-        resultList.addMouseListener(new MouseAdapter()
-        {
+        resultList.addMouseListener(new MouseAdapter() {
 
-            public void mouseClicked(MouseEvent e)
-            {
-                if (e.getClickCount() == 2)
-                {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
                     exploreSelected();
                 }
             }
 
-            public void mousePressed(MouseEvent e)
-            {
+            public void mousePressed(MouseEvent e) {
                 maybeShowPopup(e);
             }
 
-            public void mouseReleased(MouseEvent e)
-            {
+            public void mouseReleased(MouseEvent e) {
                 maybeShowPopup(e);
             }
 
-            private void maybeShowPopup(MouseEvent e)
-            {
-                if (e.isPopupTrigger())
-                {
+            private void maybeShowPopup(MouseEvent e) {
+                if (e.isPopupTrigger()) {
 
-                    if (resultList.getSelectedValue() != null)
-                    {
+                    if (resultList.getSelectedValue() != null) {
                         menu.show(e.getComponent(), e.getX(), e.getY());
                     }
                 }
             }
         });
 
-        cleanB.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        cleanB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 model.removeAllElements();
                 SearchResultsPanel.this.repaint();
                 border.setTitle("");
@@ -110,40 +96,28 @@ public class SearchResultsPanel extends JPanel
             }
         });
 
-        resultList.getSelectionModel().addListSelectionListener(new ListSelectionListener()
-        {
-            public void valueChanged(ListSelectionEvent e)
-            {
-                if (resultList.getSelectedValue() == null)
-                {
+        resultList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (resultList.getSelectedValue() == null) {
                     exploreB.setEnabled(false);
-                }
-                else if(!resultList.getSelectedValue().toString().endsWith("/"))
-                {
+                } else if (!resultList.getSelectedValue().toString().endsWith("/")) {
                     exploreB.setEnabled(true);
-                }
-                else
-                {
+                } else {
                     exploreB.setEnabled(false);
                 }
             }
         });
 
-        resultList.addKeyListener(new KeyAdapter()
-        {
-            public void keyTyped(KeyEvent e)
-            {
-               if(e.getKeyChar() == '\n')
-                {
+        resultList.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == '\n') {
                     exploreSelected();
                 }
             }
         });
 
-        exploreB.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        exploreB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 exploreSelected();
             }
         });
@@ -152,10 +126,8 @@ public class SearchResultsPanel extends JPanel
     /**
      * will pop a corresponding dialog for a resource.
      */
-    private void exploreSelected()
-    {
-        try
-        {
+    private void exploreSelected() {
+        try {
             String selectedValue = resultList.getSelectedValue().toString();
             int index = selectedValue.lastIndexOf(":");
 
@@ -171,17 +143,14 @@ public class SearchResultsPanel extends JPanel
                 explorerDialog.pack();
                 explorerDialog.setSize(new Dimension(800, 600));
                 explorerDialog.setVisible(true);
-            }
-            else //show any other resource property file, manifest, etc.
+            } else //show any other resource property file, manifest, etc.
             {
                 ResourceExplorerDialog resourceExplorerDialog = new ResourceExplorerDialog(GUIUtil.getMainFrame(), jarName, resourceName);
                 resourceExplorerDialog.pack();
                 resourceExplorerDialog.setSize(new Dimension(800, 600));
                 resourceExplorerDialog.setVisible(true);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             GUIUtil.messageBoxWithDetails("Error", ex, javax.swing.JOptionPane.ERROR_MESSAGE);
         }
@@ -195,22 +164,18 @@ public class SearchResultsPanel extends JPanel
      * @param title   - title of hte results .
      * @param results - strings are expected.
      */
-    public void setResults(String title, ArrayList results)
-    {
+    public void setResults(String title, ArrayList results) {
         model.removeAllElements();
         border.setTitle(title);
 
-        for (int i = 0; i < results.size(); i++)
-        {
-            Object o = results.get(i);
+        for (Object o : results) {
             model.addElement(o);
         }
         cleanB.setEnabled(true);
         repaint();
     }
 
-    public void clean()
-    {
+    public void clean() {
         model = new DefaultListModel();
         resultList.setModel(model);
     }

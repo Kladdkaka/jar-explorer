@@ -11,8 +11,7 @@ import java.io.IOException;
  *
  * @author Igor Polevoy
  */
-public class ImageDialog extends CenteredDialog
-{
+public class ImageDialog extends CenteredDialog {
     /**
      * Creates a dialod, and reads a resource in the process.
      *
@@ -21,8 +20,7 @@ public class ImageDialog extends CenteredDialog
      * @param resourceName - internal path to resource
      * @throws java.io.IOException - thrown in case there is a problem reading the resource.
      */
-    public ImageDialog(Frame owner, String jarFileName, String resourceName) throws IOException
-    {
+    public ImageDialog(Frame owner, String jarFileName, String resourceName) throws IOException {
         super(owner, jarFileName + ":" + resourceName, false);
     }
 }
